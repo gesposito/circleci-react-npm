@@ -1,0 +1,27 @@
+version: 2
+
+jobs:
+  build:
+
+    docker:
+      - image: circleci/node:8
+
+    environment:
+    
+    steps:
+      - checkout
+
+      - run:
+          name: Check versions
+          command: |
+            yarn --version
+            node --version
+            docker --version
+
+      - run:
+          name: Install Packages
+          command: npm install
+
+      - run:
+          name: Start
+          command: npm start
