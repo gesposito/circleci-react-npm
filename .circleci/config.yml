@@ -7,21 +7,35 @@ jobs:
       - image: circleci/node:8
 
     environment:
-    
+
     steps:
       - checkout
 
       - run:
           name: Check versions
           command: |
-            yarn --version
             node --version
+            npm --version
             docker --version
+            # yarn --version
 
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      # - run: yarn install
       - run:
           name: Install Packages
           command: npm install
 
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
       - run:
-          name: Start
-          command: npm start
+          name: Build
+          command: npm run build

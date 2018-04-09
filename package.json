@@ -2,10 +2,24 @@
   "name": "circleci-react-npm",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/react-demo.cjs.min.js",
   "scripts": {
-    "start": "node index.js"
+    "build": "rollup -c scripts/rollup.config.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.3.0"
+  }
 }
