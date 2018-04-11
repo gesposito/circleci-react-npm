@@ -4,7 +4,7 @@ CircleCI, React (storybook), NPM
 
 ## CircleCI
 
-[![CircleCI](https://circleci.com/gh/gesposito/circleci-react-npm.svg?style=svg)](https://circleci.com/gh/gesposito/circleci-react-npm)
+[![CircleCI](https://circleci.com/gh/gesposito/circleci-react-npm/tree/master.svg?style=svg&circle-token=50bea4e6922d63ef88b6c04087786c9f4ba9b30d)](https://circleci.com/gh/gesposito/circleci-react-npm/tree/master)
 
 ## [master](https://github.com/gesposito/circleci-react-npm/tree/master)
 
