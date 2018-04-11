@@ -4,7 +4,7 @@ class Demo extends Component {
     render() {
         return (
             <h1 onClick={this.props.onClick}>
-               It still works! 
+               It works! 
             </h1>
         );
     }
