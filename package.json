@@ -1,11 +1,12 @@
 {
   "name": "circleci-react-npm",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "",
   "main": "dist/react-demo.cjs.min.js",
   "scripts": {
     "build": "rollup -c scripts/rollup.config.js",
-    "release": "release-it"
+    "release-it": "release-it",
+    "release": "release"
   },
   "author": "",
   "license": "ISC",

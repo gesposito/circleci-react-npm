@@ -93,21 +93,25 @@ workflows:
   version: 2
   deploy:
     jobs:
-      - build
+      - build:
+          # Note: The build job must also have a filters tags section, as it is a transient dependency of the deploy job.
+          filters:
+            tags:
+              only: /.*/
       - publish:
           requires:
             - build
           filters:
             tags:
-              only: /^v.*/
+              only: /^v?[0-9]+(\.[0-9]+)*/
             branches:
               ignore: /.*/
 
-      - release-assets:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+      # - release-assets:
+      #     requires:
+      #       - build
+      #     filters:
+      #       tags:
+      #         only: /^v.*/
+      #       branches:
+      #         ignore: /.*/
