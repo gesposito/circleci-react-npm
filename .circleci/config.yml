@@ -5,6 +5,9 @@
 version: 2
 
 aliases:
+  - &working_directory
+    ~/repo
+
   - &restore_cache
     keys:
     - v1-dependencies-{{ checksum "package.json" }}
@@ -20,16 +23,17 @@ aliases:
       - node_modules
     key: v1-dependencies-{{ checksum "package.json" }}
 
+defaults: &defaults
+  docker:
+    # specify the version you desire here
+    - image: circleci/node:8
+
+  working_directory: *working_directory
+
 jobs:
 
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8
-
-    working_directory: ~/repo
-
-    environment:
+    <<: *defaults
 
     steps:
       - checkout
@@ -51,14 +55,23 @@ jobs:
           name: Build
           command: npm run build
 
-  npm-publish:
-    docker:
-      - image: circleci/node:8
+      # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job. 
+      # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is 
+      # taken to be the root directory of the workspace.
+      - persist_to_workspace:
+          root: *working_directory
+          paths:
+            - dist
 
-    working_directory: ~/repo
+  npm-publish:
+    <<: *defaults
 
     steps:
       - checkout
+
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: dist
 
       - run:
           name: NPM publish
@@ -67,10 +80,7 @@ jobs:
             npm publish
 
   deploy-github-pages:
-    docker:
-      - image: circleci/node:8
-
-    working_directory: ~/repo
+    <<: *defaults
 
     steps:
       - checkout
@@ -90,10 +100,7 @@ jobs:
             npm run storybook-deploy
 
   release-github-assets:
-    docker:
-      - image: circleci/node:8
-
-    working_directory: ~/repo
+    <<: *defaults
 
     steps:
       - checkout
@@ -124,10 +131,10 @@ workflows:
           requires:
             - build
           filters:
-            tags:
-              only: /^v?[0-9]+(\.[0-9]+)*/
             branches:
               ignore: /.*/
+            tags:
+              only: /^v?[0-9]+(\.[0-9]+)*/
 
       - deploy-github-pages:
           requires:
@@ -137,7 +144,7 @@ workflows:
       #     requires:
       #       - build
       #     filters:
-      #       tags:
-      #         only: /^v?[0-9]+(\.[0-9]+)*/
       #       branches:
       #         ignore: /.*/
+      #       tags:
+      #         only: /^v?[0-9]+(\.[0-9]+)*/
