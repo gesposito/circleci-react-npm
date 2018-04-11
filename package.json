@@ -7,7 +7,8 @@
     "build": "rollup -c scripts/rollup.config.js",
     "storybook": "start-storybook -p 6006",
     "storybook-build": "build-storybook",
-    "storybook-deploy": "gh-pages -d storybook-static",
+    "storybook-deploy":
+      "gh-pages -d storybook-static -m 'Update GitHub Pages [ci skip]'",
     "release-it": "release-it",
     "release": "release"
   },
