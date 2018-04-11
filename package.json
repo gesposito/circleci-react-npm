@@ -1,16 +1,15 @@
 {
   "name": "circleci-react-npm",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "",
   "main": "dist/react-demo.cjs.min.js",
   "scripts": {
     "build": "rollup -c scripts/rollup.config.js",
     "storybook": "start-storybook -p 6006",
     "storybook-build": "build-storybook",
-    "storybook-deploy":
-      "gh-pages -d storybook-static -m 'Update GitHub Pages [ci skip]'",
-    "release-it": "release-it",
-    "release": "release"
+    "storybook-deploy": "gh-pages -d storybook-static -m 'Update GitHub Pages [ci skip]'",
+    "release-it": "release-it --config scripts/.release-it.json -n",
+    "release": "release patch"
   },
   "author": "",
   "license": "ISC",

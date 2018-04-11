@@ -55,6 +55,8 @@ jobs:
     docker:
       - image: circleci/node:8
 
+    working_directory: ~/repo
+
     steps:
       - checkout
 
@@ -67,6 +69,8 @@ jobs:
   deploy-github-pages:
     docker:
       - image: circleci/node:8
+
+    working_directory: ~/repo
 
     steps:
       - checkout
@@ -89,6 +93,8 @@ jobs:
     docker:
       - image: circleci/node:8
 
+    working_directory: ~/repo
+
     steps:
       - checkout
 
@@ -99,7 +105,7 @@ jobs:
         
       - run:
           name: Add GitHub Release
-          command: npm run release
+          command: npm run release-it
 
 # Workflows enable multiple jobs in parallel
 workflows:
@@ -132,6 +138,6 @@ workflows:
       #       - build
       #     filters:
       #       tags:
-      #         only: /^v.*/
+      #         only: /^v?[0-9]+(\.[0-9]+)*/
       #       branches:
       #         ignore: /.*/

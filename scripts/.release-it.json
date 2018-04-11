@@ -1,6 +1,9 @@
 {
+  "requireUpstream": false,
   "src": {
-    "tagName": "v%s"
+    "tagName": "v%s",
+    "commit": false,
+    "push": false
   },
   "github": {
     "release": true,
