@@ -4,6 +4,22 @@
 #
 version: 2
 
+aliases:
+  - &restore_cache
+    keys:
+    - v1-dependencies-{{ checksum "package.json" }}
+    # fallback to using the latest cache if no exact match is found
+    - v1-dependencies-
+
+  - &npm_install
+    name: Install Packages
+    command: npm install
+
+  - &save_cache
+    paths:
+      - node_modules
+    key: v1-dependencies-{{ checksum "package.json" }}
+
 jobs:
 
   build:
@@ -27,27 +43,15 @@ jobs:
             # yarn --version
 
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      # - run: yarn install
-      - run:
-          name: Install Packages
-          command: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - restore_cache: *restore_cache
+      - run: *npm_install
+      - save_cache: *save_cache
 
       - run:
           name: Build
           command: npm run build
 
-  publish:
+  npm-publish:
     docker:
       - image: circleci/node:8
 
@@ -60,7 +64,7 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             npm publish
 
-  release-assets:
+  deploy-github-pages:
     docker:
       - image: circleci/node:8
 
@@ -68,21 +72,27 @@ jobs:
       - checkout
 
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      # - run: yarn install
+      - restore_cache: *restore_cache
+      - run: *npm_install
+      - save_cache: *save_cache
+        
       - run:
-          name: Install Packages
-          command: npm install
+          name: Deploy GitHub Pages
+          command: |
+            npm run storybook-build
+            npm run storybook-deploy
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+  release-github-assets:
+    docker:
+      - image: circleci/node:8
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache: *restore_cache
+      - run: *npm_install
+      - save_cache: *save_cache
         
       - run:
           name: Add GitHub Release
@@ -96,9 +106,12 @@ workflows:
       - build:
           # Note: The build job must also have a filters tags section, as it is a transient dependency of the deploy job.
           filters:
+            branches:
+              ignore: gh-pages
             tags:
               only: /.*/
-      - publish:
+
+      - npm-publish:
           requires:
             - build
           filters:
@@ -107,7 +120,11 @@ workflows:
             branches:
               ignore: /.*/
 
-      # - release-assets:
+      - deploy-github-pages:
+          requires:
+            - build
+
+      # - release-github-assets:
       #     requires:
       #       - build
       #     filters:

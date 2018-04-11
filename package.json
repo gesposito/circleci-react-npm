@@ -7,6 +7,7 @@
     "build": "rollup -c scripts/rollup.config.js",
     "storybook": "start-storybook -p 6006",
     "storybook-build": "build-storybook",
+    "storybook-deploy": "pages -d storybook-static",
     "release-it": "release-it",
     "release": "release"
   },
@@ -17,21 +18,22 @@
     "react-dom": "^16.3.1"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.4.1",
+    "@storybook/addon-links": "^3.4.1",
+    "@storybook/addons": "^3.4.1",
+    "@storybook/react": "^3.4.1",
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "babel-runtime": "^6.26.0",
+    "gh-pages": "^1.1.0",
     "release": "^3.1.7",
     "release-it": "^7.3.0",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "@storybook/react": "^3.4.1",
-    "@storybook/addon-actions": "^3.4.1",
-    "@storybook/addon-links": "^3.4.1",
-    "@storybook/addons": "^3.4.1",
-    "babel-runtime": "^6.26.0"
+    "rollup-plugin-node-resolve": "^3.3.0"
   },
   "dependencies": {}
 }
