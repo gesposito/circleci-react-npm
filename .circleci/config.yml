@@ -79,6 +79,7 @@ jobs:
       - run:
           name: Deploy GitHub Pages
           command: |
+            npx npm-install-peers
             npm run storybook-build
             npm run storybook-deploy
 
