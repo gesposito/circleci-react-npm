@@ -1,6 +1,6 @@
 {
   "name": "circleci-react-npm",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
   "main": "dist/react-demo.cjs.min.js",
   "scripts": {
