@@ -1,6 +1,6 @@
 # Showcase featuring
 
-CircleCI, React (storybook), NPM
+CircleCI, React (Storybook), NPM
 
 ## CircleCI
 
@@ -12,7 +12,7 @@ Push changes to `master` branch and CircleCI will kick in.
 
 ### GitHub Pages (Storybook from `stories/`)
 
-Update GitHub Pages with CircleCI on push.
+CircleCI updates GitHub Pages on push.
 
 [circleci-react-npm](https://gesposito.github.io/circleci-react-npm/)
 
@@ -20,14 +20,20 @@ Update GitHub Pages with CircleCI on push.
 
 Create a Git Tag (with a GitHub Release and changelog) through [release](https://github.com/zeit/release):
 
-```
+```sh
 npx release patch
 ```
 and CircleCI will kick in.
 
+### GitHub Release assets (from `dist/`)
+
+CircleCI uploads library build output to GitHub Release (Git Tag) on push to Git Tag.
+
+[tag/0.0.16](https://github.com/gesposito/circleci-react-npm/releases/tag/0.0.16)
+
 ### NPM publish (library from `src/`)
 
-Update NPM package with CircleCI on push to Git Tag.
+CircleCI publishes NPM package on push to Git Tag.
 
 [circleci-react-npm](https://www.npmjs.com/package/circleci-react-npm)
 
